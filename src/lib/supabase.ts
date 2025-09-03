@@ -3,10 +3,6 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-// Debug logging for environment variables
-console.log('Supabase URL:', supabaseUrl ? 'Set' : 'Missing');
-console.log('Supabase Anon Key:', supabaseAnonKey ? 'Set' : 'Missing');
-
 // Export configuration status for components to use
 export const supabaseConfig = {
   hasCredentials: !!(supabaseUrl && supabaseAnonKey),

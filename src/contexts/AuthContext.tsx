@@ -69,8 +69,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       throw new Error('Supabase not configured. Please check your environment variables.');
     }
 
-    console.log('Attempting sign in for:', email);
-    
     try {
       const { error } = await supabase.auth.signInWithPassword({
         email,
@@ -78,7 +76,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
       
       if (error) {
-        console.error('Sign in error:', error);
         
         // Provide user-friendly error messages
         if (error.message.includes('Invalid login credentials')) {
@@ -87,8 +84,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         
         throw error;
       }
-      
-      console.log('Sign in successful');
     } catch (error: any) {
       // Handle network errors
       if (error.message === 'Failed to fetch' || error.name === 'TypeError') {
@@ -104,35 +99,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       throw new Error('Supabase not configured. Please check your environment variables.');
     }
 
-    console.log('Attempting sign up for:', email);
-    
     try {
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          emailRedirectTo: undefined
+          emailRedirectTo: undefined,
+          data: {
+            email_confirm: false
+          }
         }
       });
       
-      console.log('Sign up response:', { data, error });
-      
       if (error) {
-        console.error('Sign up error:', error);
         throw error;
       }
       
-      // Always return success for signup, handle confirmation in UI
-      if (data.user && !data.session) {
-        console.log('Email confirmation may be required for user:', data.user.id);
-        // Don't throw error, let the UI handle this
-      }
-      
-      console.log('Sign up successful');
       return data;
     } catch (error: any) {
-      console.error('Sign up catch block:', error);
-      
       // Handle network errors
       if (error.message === 'Failed to fetch' || error.name === 'TypeError') {
         throw new Error('Connection failed. Please check your internet connection and Supabase configuration.');
