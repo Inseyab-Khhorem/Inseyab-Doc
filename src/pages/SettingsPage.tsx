@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { User, Mail, Shield, Save } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { DeploymentGuide } from '../components/DeploymentGuide';
 import toast from 'react-hot-toast';
 
 export function SettingsPage() {
@@ -128,6 +129,9 @@ export function SettingsPage() {
           </div>
         </div>
       </div>
+
+      {/* Deployment Guide */}
+      <DeploymentGuide />
     </div>
   );
 }
